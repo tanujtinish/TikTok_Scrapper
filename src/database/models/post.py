@@ -8,6 +8,9 @@ from src.database.models.comment import Comment
 
 from src.services.tiktok_recommendation_browser_session import TiktTokRecommendationBrowserSession
 
+from src.services.mongodb_service import Mongodb_service
+from src.configs.mongodb_config import fasion_posts_collection
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -23,7 +26,7 @@ class Post:
         
         self.comments = []
         self.video_id = post_item.get("video", []).get("id")
-
+    
     def to_dict(self):
         # Convert the Post object to a dictionary
         post_dict = {
@@ -35,6 +38,20 @@ class Post:
         }
         return post_dict
     
+    def save_to_mongodb(self):
+        
+        mongodb_service = Mongodb_service(fasion_posts_collection)
+        
+        try:
+            post_dict = self.to_dict()  # Convert the Post object to a dictionary
+            if post_dict:
+                mongodb_service.save_to_mongodb(post_dict)  # Save the dictionary to MongoDB
+            else:
+                raise Exception("No content to save")
+        except Exception as e:
+            print(e)
+            raise Exception("Error saving content to MongoDB")
+        
     async def fetchPostWithComments(self):
         
         # author_unique_id = self.author.unique_id
