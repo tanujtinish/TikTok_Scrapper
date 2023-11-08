@@ -30,3 +30,38 @@ class Author:
         self.heart_count = author_stats_data.get("heartCount", 0)
         self.video_count = author_stats_data.get("videoCount", 0)
 
+    def to_dict(self):
+        # Convert the Author object to a dictionary
+        author_dict = {
+            "avatar_larger": self.avatar_larger,
+            "avatar_medium": self.avatar_medium,
+            "avatar_thumb": self.avatar_thumb,
+            "comment_setting": self.comment_setting,
+            "download_setting": self.download_setting,
+            "duet_setting": self.duet_setting,
+            "ftc": self.ftc,
+            "id": self.id,
+            "is_ad_virtual": self.is_ad_virtual,
+            "is_embed_banned": self.is_embed_banned,
+            "nickname": self.nickname,
+            "open_favorite": self.open_favorite,
+            "private_account": self.private_account,
+            "relation": self.relation,
+            "sec_uid": self.sec_uid,
+            "secret": self.secret,
+            "signature": self.signature,
+            "stitch_setting": self.stitch_setting,
+            "tt_seller": self.tt_seller,
+            "unique_id": self.unique_id,
+            "verified": self.verified,
+        }
+        author_stats_dict = {
+            "digg_count": self.digg_count,
+            "follower_count": self.follower_count,
+            "following_count": self.following_count,
+            "friend_count": self.friend_count,
+            "heart": self.heart,
+            "heart_count": self.heart_count,
+            "video_count": self.video_count,
+        }
+        return {"author_data": author_dict, "author_stats_data": author_stats_dict}
