@@ -2,7 +2,6 @@ import pymongo
 
 connection_string = "mongodb://localhost:27017/"
 database_name = "TikTok"
-collection_name = "fasion_posts"
 
 def connect_to_mongodb():
     try:
@@ -15,4 +14,6 @@ def connect_to_mongodb():
         return None
     
 client = connect_to_mongodb()
-fasion_posts_collection = client[collection_name]
+scraped_posts_collection = client["scraped_posts"]
+scraped_posts_with_comments_collection = client["scraped_posts_with_comments"]
+fasion_posts_collection = client["fasion_posts"]
