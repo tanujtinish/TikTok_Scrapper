@@ -38,7 +38,6 @@ class TiktTokRecommendationBrowserSession:
                 res = TikTokCaptchaSolver(
                         device_id=7297801250002699819, install_id=0
                     ).solve_captcha()
-                print(res)
         except Exception as e:
             pass
     
@@ -111,7 +110,8 @@ class TiktTokRecommendationBrowserSession:
             "tz_name": "America/Chicago",
             "verifyFp": "verify_lokwbxw0_XFehFvEk_MNw5_4kbH_BwTG_xfZ7kc5dNUi1",
             "watchLiveLastTime": "",
-            "webcast_language": "en",            
+            "webcast_language": "en",
+            "device_id":"7297801250002699819"          
         }
                 
         if params:
@@ -131,7 +131,6 @@ class TiktTokRecommendationBrowserSession:
                 var res= xhr.responseText;
                 return res
             ''')
-            print(api_response)
             response = requests.get(signed_url)
             # Check if the request was successful
             if response.status_code == 200:
