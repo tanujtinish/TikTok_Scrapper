@@ -101,7 +101,7 @@ def save_posts_to_database():
         print(fashion_post)
         fashion_post.save_to_mongodb()
         
-def fetch_tiktok_fasion_posts_job(count, fetch_comments):
+def fetch_tiktok_fasion_posts_job(posts_to_scrape, fasion_posts_needed, fetch_comments):
     ms_token = "K0A_4yeeT2o4VZRofZzNhSGGjrstUFiE6FCrG9jtOWTKP_XtPFuCadkKj7yxbUNNNbNtPidJtBx62VwudNXJRHA_TEp5ZTxOZgi0jzy7Tzvv1WOjNR3CnhiPHDROJFcROQ5UT8WaRnPmb9cP"
     browser_session = TiktTokRecommendationBrowserSession(ms_token)
     
@@ -109,12 +109,10 @@ def fetch_tiktok_fasion_posts_job(count, fetch_comments):
     fetched_fasion_posts_count = 0
     cursor = 0
     has_next = True
-    while fetched_fasion_posts_count < count and has_next:
-        posts_from_api_obj = fetch_tiktok_fasion_posts(count - fetched_fasion_posts_count, cursor, browser_session)
+    if fasion_posts_needed==-1:
+        posts_from_api_obj = fetch_tiktok_fasion_posts(posts_to_scrape, cursor, browser_session)
         
         posts_from_api = posts_from_api_obj["posts_from_api"]
-        cursor = posts_from_api_obj["cursor"]
-        has_next = posts_from_api_obj["has_next"]
         
         fashion_posts_fetched = asyncio.run(parse_and_get_fasion_filtered_posts_from_api(None, posts_from_api, fetch_comments, browser_session))
         
@@ -123,6 +121,21 @@ def fetch_tiktok_fasion_posts_job(count, fetch_comments):
         
         # posts_from_api = fetch_tiktok_recommended_posts(10, browser_session)
         # posts = asyncio.run(parse_and_save_posts_from_api(posts_from_api, None, browser_session))
+    else:
+        while fetched_fasion_posts_count < fasion_posts_needed and has_next:
+            posts_from_api_obj = fetch_tiktok_fasion_posts(fasion_posts_needed - fetched_fasion_posts_count, cursor, browser_session)
+            
+            posts_from_api = posts_from_api_obj["posts_from_api"]
+            cursor = posts_from_api_obj["cursor"]
+            has_next = posts_from_api_obj["has_next"]
+            
+            fashion_posts_fetched = asyncio.run(parse_and_get_fasion_filtered_posts_from_api(None, posts_from_api, fetch_comments, browser_session))
+            
+            fetched_fasion_posts_count = fetched_fasion_posts_count + len(fashion_posts_fetched)
+            fashion_posts.extend(fashion_posts_fetched)
+        
+            # posts_from_api = fetch_tiktok_recommended_posts(10, browser_session)
+            # posts = asyncio.run(parse_and_save_posts_from_api(posts_from_api, None, browser_session))
 
     browser_session.close_session()
     
