@@ -13,8 +13,8 @@ class TiktTokRecommendationBrowserSession:
     def __init__(self, ms_token, headless=True, proxy=None):
         # Initialize a headless Selenium browser session
         options = webdriver.ChromeOptions()
-        # if headless:
-        #     options.add_argument("--headless")
+        if headless:
+            options.add_argument("--headless")
         if proxy:
             options.add_argument(f'--proxy-server={proxy}')
         
@@ -123,14 +123,14 @@ class TiktTokRecommendationBrowserSession:
         
         try:
             # Execute JavaScript to make the API request (e.g., using fetch or XMLHttpRequest)
-            self.browser.set_script_timeout(60)
-            api_response = self.browser.execute_script(f'''
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", "{signed_url}", true);
-                xhr.send();
-                var res= xhr.responseText;
-                return res
-            ''')
+            # self.browser.set_script_timeout(60)
+            # api_response = self.browser.execute_script(f'''
+            #     var xhr = new XMLHttpRequest();
+            #     xhr.open("GET", "{signed_url}", true);
+            #     xhr.send();
+            #     var res= xhr.responseText;
+            #     return res
+            # ''')
             response = requests.get(signed_url)
             # Check if the request was successful
             if response.status_code == 200:
