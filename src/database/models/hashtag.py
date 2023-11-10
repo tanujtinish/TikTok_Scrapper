@@ -16,3 +16,13 @@ class Hashtag:
             "desc": self.desc,
         }
         return hashtags_dict
+    
+    @staticmethod
+    def from_dict( hashtag_dict):
+        title = hashtag_dict["title"]
+        desc = hashtag_dict["desc"]
+        
+        hashtag= Hashtag(
+            title, desc
+        )
+        return hashtag

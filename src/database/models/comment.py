@@ -20,7 +20,17 @@ class Comment:
             "author": self.author
         }
         return comment_dict
-
+    
+    @staticmethod
+    def from_dict( comment_dict):
+        comment_text = comment_dict["comment"]
+        comment_author_profile = comment_dict["author"]["comment_author_profile"]
+        comment_author_id = comment_dict["author"]["comment_author_id"]
+        
+        comment= Comment(
+            comment_text, comment_author_profile, comment_author_id
+        )
+        return comment
     
     
     

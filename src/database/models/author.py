@@ -11,6 +11,17 @@ class Author:
             "id": self.id,
             "nickname": self.nickname,
             "unique_id": self.unique_id,
-            "verified": self.verified,
+            "verified": str(self.verified),
         }
         return author_dict
+    
+    @staticmethod
+    def from_dict(author_dict):
+        
+        author= Author(
+            author_dict["id"],
+            author_dict["nickname"],
+            author_dict["unique_id"],
+            True if author_dict["verified"].lower() == "true" else False
+        )
+        return author
