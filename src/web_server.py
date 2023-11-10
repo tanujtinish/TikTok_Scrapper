@@ -3,7 +3,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from src.jobs.tiktok_posts_scrapper import fetch_tiktok_fasion_posts_job
+from src.controllers.tiktok_posts_scrapper import fetch_tiktok_posts_controller, fetch_comments_for_posts_controller, assign_relevance_scores_and_filter_fasion_posts
+from src.controllers.process_fasion_instagram_data import process_fasion_instagram_data
 
 app = Flask(__name__)
 CORS(app)
@@ -12,22 +13,61 @@ CORS(app)
 def health_check():
     return jsonify({"success": True}), 200
 
-@app.route('/fetch_fasion_posts')
-def fetch_fasion_posts():
+@app.route('/scrape_tiktok_posts')
+def scrape_tiktok_posts():
     try:
         count = int(request.args.get('posts_to_scrape', 30))
-        count = int(request.args.get('fasion_posts_needed', -1))
-        fetch_comments = bool(request.args.get('fetch_comments', False))
-        
-        print(count)
-        print(fetch_comments)
+        cursor = int(request.args.get('cursor', 0))
 
         posts = []
-        posts = fetch_tiktok_fasion_posts_job(count, fetch_comments)
+        posts = fetch_tiktok_posts_controller(count, cursor)
+
+        for post in posts:
+            post["date_collected"] = str(post["date_collected"])
+            post["_id"] = str(post["_id"])
+        return jsonify({"success": True, "posts": posts}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/fetch_comments_for_scrapped_posts')
+async def fetch_comments_for_scrapped_posts():
+    try:
+        posts = await fetch_comments_for_posts_controller()
+
+        for post in posts:
+            post["date_collected"] = str(post["date_collected"])
+            post["_id"] = str(post["_id"])
+        return jsonify({"success": True, "posts_with_comments": posts}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/filter_fasion_posts_with_relevance_scores')
+def filter_fasion_posts_with_relevance_scores():
+    try:
+        posts = assign_relevance_scores_and_filter_fasion_posts()
+
+        for post in posts:
+            post["date_collected"] = str(post["date_collected"])
+            post["_id"] = str(post["_id"])
+        return jsonify({"success": True, "posts": posts}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/process_instagram_post_data')
+def process_instagram_post_data():
+    try:
+        num_topics = int(request.args.get('num_topics', 10))
+        words_per_topic = int(request.args.get('words_per_topic', 20))
+        
+        posts = process_fasion_instagram_data(num_topics, words_per_topic)
 
         return jsonify({"success": True, "posts": posts}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="8000")
