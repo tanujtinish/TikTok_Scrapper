@@ -7,9 +7,19 @@ class Stats:
 
     def to_dict(self):
         stats_dict = {
-            "commentCount": self.comment_count,
-            "diggCount": self.digg_count,
-            "playCount": self.play_count,
-            "shareCount": self.share_count,
+            "commentCount": str(self.comment_count),
+            "diggCount": str(self.digg_count),
+            "playCount": str(self.play_count),
+            "shareCount": str(self.share_count),
         }
         return stats_dict
+    
+    @staticmethod
+    def from_dict(stats_dict):
+        
+        return Stats(
+            int(stats_dict["diggCount"]),
+            int(stats_dict["playCount"]),
+            int(stats_dict["shareCount"]),
+            int(stats_dict["commentCount"])
+        )

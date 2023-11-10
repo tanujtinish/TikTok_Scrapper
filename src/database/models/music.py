@@ -12,3 +12,15 @@ class Music:
             "title": self.title,
         }
         return music_dict
+    
+    @staticmethod
+    def from_dict(music_dict):
+        
+        title = music_dict["title"]
+        author_name = music_dict["author_name"]
+        album = music_dict["album"]
+        
+        music= Music(
+            title, author_name, album
+        )
+        return music
