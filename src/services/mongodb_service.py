@@ -14,11 +14,21 @@ class Mongodb_service:
     return self.collection.insert_one(data).inserted_id
   
   def save_many_to_mongodb(self, data):
+    if len(data)==0:
+      return
     self.collection.insert_many(data)
 
-  def update_batch(self, ids):
-    self.collection.update_many({"_id": {"$in": ids}}, {"$set": {"": ""}})
+  def update_processed_batch(self, ids):
+    self.collection.update_many({"_id": {"$in": ids}}, {"$set": {"processed": True}})
 
   def find_by_id(self, id):
     res = self.collection.find_one({"_id": id})
+    return res
+  
+  def find(self):
+    res = self.collection.find({"processed":False})
+    return res
+  
+  def delete(self):
+    res = self.collection.delete_many({})
     return res
