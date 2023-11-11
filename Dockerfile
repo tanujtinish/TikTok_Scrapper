@@ -1,16 +1,21 @@
-FROM python:3.11-slim-bookworm
 
-RUN apt update && \
-    apt install --no-install-recommends -y build-essential gcc && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+FROM python:3.9.6
 
-WORKDIR /metajungle-opl
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+    
+WORKDIR /app
+
+COPY . /app
 
 COPY requirements.txt .
 RUN pip install --upgrade pip
+
+# Install project dependencies
 RUN pip install -r requirements.txt
 
-COPY . .
+# Install NLTK datasets
+RUN python3 src/datasets/predownload_nltk_datasets.py
 
 EXPOSE 8000
 
