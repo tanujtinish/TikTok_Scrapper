@@ -103,7 +103,7 @@ async def fetch_comments_for_posts_controller():
     
     mongodb_service_source = Mongodb_service(scraped_posts_collection)
     post_objs_mongo = mongodb_service_source.find()
-    post_objs_mongo[:4]
+    post_objs_mongo[:100]
         
     ms_token = "K0A_4yeeT2o4VZRofZzNhSGGjrstUFiE6FCrG9jtOWTKP_XtPFuCadkKj7yxbUNNNbNtPidJtBx62VwudNXJRHA_TEp5ZTxOZgi0jzy7Tzvv1WOjNR3CnhiPHDROJFcROQ5UT8WaRnPmb9cP"
     browser_session = TiktTokRecommendationBrowserSession(ms_token, False)
