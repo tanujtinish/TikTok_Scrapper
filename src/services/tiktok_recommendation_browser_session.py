@@ -30,7 +30,7 @@ class TiktTokRecommendationBrowserSession:
         options.add_argument("device_type=web_h264")
         
         self.device_id = str(random.randint(10**18, 10**19 - 1))
-        options.add_argument(f"device_id={device_id}")
+        options.add_argument(f"device_id={self.device_id}")
 
         options.add_argument("--disable-dev-shm-usage");
         options.add_argument("--no-sandbox");
