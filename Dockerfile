@@ -3,6 +3,7 @@ FROM python:3.11-slim-bookworm
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
     apt clean && rm -rf /var/lib/apt/lists/*
+RUN sudo apt-get install libgl1
 
 WORKDIR /app
 
