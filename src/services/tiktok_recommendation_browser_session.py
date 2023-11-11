@@ -20,15 +20,15 @@ class TiktTokRecommendationBrowserSession:
         if proxy:
             options.add_argument(f'--proxy-server={proxy}')
         
-        # self.browser = webdriver.Chrome(options=options)
+        self.browser = webdriver.Chrome(options=options)
         # self.browser = webdriver.Remote(
         # 'http://localhost:4444/wd/hub',
         #     options=options,
         # )
-        self.browser = webdriver.Remote(
-        command_executor='http://localhost:3000/webdriver',
-            options=options,
-        )
+        # self.browser = webdriver.Remote(
+        # command_executor='http://localhost:3000/webdriver',
+        #     options=options,
+        # )
         
         self.browser.get("https://www.tiktok.com")
         
@@ -149,15 +149,15 @@ class TiktTokRecommendationBrowserSession:
                 data = response.json()
                 return data
             else:
-                app.logger.info(f"Failed to retrieve data. Status code: {response.status_code}")
+                print(f"Failed to retrieve data. Status code: {response.status_code}")
                 return {"itemList":[]}
         except Exception as e:
-            app.logger.info(f"Failed to retrieve data. Error: {e}")
+            print(f"Failed to retrieve data. Error: {e}")
             return {"itemList":[]}
             
     
     def solve_captcha_for_other_sessions(self, url):
-        app.logger.info(f"solving captcha for other sessions using link {url}")
+        print(f"solving captcha for other sessions using link {url}")
         self.browser.switch_to.new_window('tab')
         self.browser.get(url)
         
@@ -169,11 +169,11 @@ class TiktTokRecommendationBrowserSession:
                 EC.visibility_of_element_located((By.CSS_SELECTOR, '.captcha_verify_img--wrapper'))
             )
             
-            app.logger.info("Found captcha")
+            print("Found captcha")
             # Solve the CAPTCHA
-            app.logger.info("Closing captcha...")
+            print("Closing captcha...")
             self.solve_captcha()
-            app.logger.info("Closed captcha")
+            print("Closed captcha")
 
         except Exception as e:
              pass
@@ -182,12 +182,12 @@ class TiktTokRecommendationBrowserSession:
             signup_box_div = self.browser.find_element(By.ID, 'loginContainer')
             
             if(signup_box_div):
-                app.logger.info("Found signup_box Pop up Box")
+                print("Found signup_box Pop up Box")
                 # Close the signup box (if it appears)
                 self.close_signup_box()
-                app.logger.info("Closing sign up box...")
+                print("Closing sign up box...")
                 self.close_signup_box()
-                app.logger.info("Closed sign up box")
+                print("Closed sign up box")
                 
 
         except Exception as e:
