@@ -4,16 +4,16 @@ RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /metajungle-opl
+WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install flask[async]
 
-RUN python3 src/datasets/predownload_nltk_datasets.py
-
 COPY . .
+
+RUN python3 src/datasets/predownload_nltk_datasets.py
 
 EXPOSE 8000
 
