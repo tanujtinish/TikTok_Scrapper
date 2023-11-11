@@ -80,19 +80,19 @@ def fetch_tiktok_posts_controller(posts_to_scrape, cursor):
     posts_from_api = posts_from_api_obj["posts_from_api"]
     parsed_posts = parse_api_reponse_and_get_main_attrinutes(None, posts_from_api, browser_session)
     
-    app.logger.info("Fetched and parsed posts")
+    print("Fetched and parsed posts")
     parsed_posts_dic_objs = []
     for post in parsed_posts:
         post_dic = post.to_dict()
         post_dic["processed"] = False
         parsed_posts_dic_objs.append(post_dic)
-    app.logger.info("converted post objects to dic")
+    print("converted post objects to dic")
     
     try:
         mongodb_service = Mongodb_service(scraped_posts_collection)
         mongodb_service.save_many_to_mongodb(parsed_posts_dic_objs)
     except Exception as e:
-        app.logger.info(e)
+        print(e)
         pass
         
     browser_session.close_session()
@@ -113,18 +113,18 @@ async def fetch_comments_for_posts_controller(max_posts_to_process):
     
     for post_obj_mongo in post_objs_mongo:
         post_obj = Post(browser_session)
-        app.logger.info(post_obj_mongo)
+        print(post_obj_mongo)
         post_obj.mapper_dic_to_post(post_obj_mongo)
         post_objs.append(post_obj)
         mongo_ids.append(post_obj_mongo.get("_id"))
     
-    app.logger.info(len(post_objs))
+    print(len(post_objs))
     if(len(post_objs)>0):    
         browser_session.solve_captcha_for_other_sessions(post_objs[0].post_url)
         
         tasks = []
         for post_obj in post_objs:
-            app.logger.info(post_obj)
+            print(post_obj)
             task = asyncio.create_task(post_obj.scrape_comments_for_post())
             tasks.append(task)
         posts = await asyncio.gather(*tasks)
