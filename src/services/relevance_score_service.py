@@ -48,7 +48,7 @@ def calculate_relevance_score_fasion_labels(post_text_corpus):
     labels = ["fasion"]
     classifier_service = TextClassifierService()
     fasion_classification_result = classifier_service.classify_text(post_text_corpus, labels)
-    fasion_classification_scores = fasion_classification_result.get("scores")
+    fasion_classification_scores = fasion_classification_result.get("scores",{})
     
     
     post_relevance_score_fasion_labels = 0
