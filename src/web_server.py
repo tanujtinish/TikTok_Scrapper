@@ -43,7 +43,9 @@ def scrape_tiktok_posts():
 async def fetch_comments_for_scrapped_posts():
     try:
         print("enter api fetch_comments_for_scrapped_posts")
-        posts = await fetch_comments_for_posts_controller()
+
+        max_posts_to_process = int(request.args.get('max_posts_to_process', 50))
+        posts = await fetch_comments_for_posts_controller(max_posts_to_process)
 
         for post in posts:
             post["date_collected"] = str(post["date_collected"])
@@ -60,7 +62,9 @@ async def fetch_comments_for_scrapped_posts():
 def filter_fasion_posts_with_relevance_scores():
     try:
         print("enter api filter_fasion_posts_with_relevance_scores")
-        posts = assign_relevance_scores_and_filter_fasion_posts()
+
+        max_posts_to_process = int(request.args.get('max_posts_to_process', 50))
+        posts = assign_relevance_scores_and_filter_fasion_posts(max_posts_to_process)
 
         for post in posts:
             post["date_collected"] = str(post["date_collected"])
