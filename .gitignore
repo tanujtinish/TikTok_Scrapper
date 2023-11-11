@@ -163,3 +163,4 @@ cython_debug/
 src/database/data/
 
 node_modules/
+TikTok_Scrapper_venv/
