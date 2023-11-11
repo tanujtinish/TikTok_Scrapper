@@ -6,6 +6,9 @@ from flask_cors import CORS
 from src.controllers.tiktok_posts_scrapper import fetch_tiktok_posts_controller, fetch_comments_for_posts_controller, assign_relevance_scores_and_filter_fasion_posts
 from src.controllers.process_fasion_instagram_data import process_fasion_instagram_data
 
+from src.services.mongodb_service import Mongodb_service
+from src.configs.mongodb_config import scraped_posts_collection, scraped_posts_with_comments_collection, fasion_posts_collection
+
 app = Flask(__name__)
 CORS(app)
 
@@ -65,6 +68,40 @@ def process_instagram_post_data():
         posts = process_fasion_instagram_data(num_topics, words_per_topic)
 
         return jsonify({"success": True, "posts": posts}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/get_scraped_fasion_posts')
+def process_instagram_post_data():
+    try:
+        mongodb_service_source = Mongodb_service(fasion_posts_collection)
+        post_objs_mongo = mongodb_service_source.find()
+
+        return jsonify({"success": True, "scraped_fasion_posts": post_objs_mongo}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/get_scraped_posts')
+def process_instagram_post_data():
+    try:
+        mongodb_service_source = Mongodb_service(scraped_posts_collection)
+        post_objs_mongo = mongodb_service_source.find()
+
+        return jsonify({"success": True, "scraped_posts": post_objs_mongo}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/get_scraped_posts_with_comments')
+def process_instagram_post_data():
+    try:
+        
+        mongodb_service_source = Mongodb_service(scraped_posts_with_comments_collection)
+        post_objs_mongo = mongodb_service_source.find()
+
+        return jsonify({"success": True, "scraped_posts_with_comments": post_objs_mongo}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
