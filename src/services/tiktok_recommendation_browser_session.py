@@ -1,6 +1,7 @@
 from urllib.parse import urlencode, quote, urlparse
 
 import requests
+import random
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,6 +14,24 @@ class TiktTokRecommendationBrowserSession:
     def __init__(self, ms_token, headless=True, proxy=None):
         # Initialize a headless Selenium browser session
         options = webdriver.ChromeOptions()
+
+        # Add other properties as needed
+        options.add_argument("app_language=en")
+        options.add_argument("app_name=tiktok_web")
+        options.add_argument("browser_language=en-GB")
+        options.add_argument("browser_name=Mozilla")
+        options.add_argument("browser_online=true")
+        options.add_argument("browser_platform=MacIntel")
+        options.add_argument("channel=tiktok_web")
+        options.add_argument("clientABVersions=70508271,71141826,71148491,71217864,71303179,71325544,71497445,71554598,71583918,71602041,71605987,71610717,71619656,71620049,71625632,71640357,71662599,71668139,71671791,71686262,50070521,50077909,50089479,70405643,70772958,71057832,71200802,71381811,71516509,71662362,71680683,71691165")
+        options.add_argument("cookie_enabled=true")
+        options.add_argument("coverFormat=2")
+        options.add_argument("device_platform=web_pc")
+        options.add_argument("device_type=web_h264")
+        
+        self.device_id = str(random.randint(10**18, 10**19 - 1))
+        options.add_argument(f"device_id={device_id}")
+
         options.add_argument("--disable-dev-shm-usage");
         options.add_argument("--no-sandbox");
         options.add_argument("--disable-setuid-sandbox");
@@ -30,24 +49,35 @@ class TiktTokRecommendationBrowserSession:
             options=options,
         )
         
-        self.browser.get("https://www.tiktok.com")
+        
+        # Set user agent
+        user_agent = self.browser.execute_script("return navigator.userAgent")
+        options.add_argument(f"user-agent={user_agent}")
+
+        # Set accept language
+        accept_language = self.browser.execute_script("return navigator.language || navigator.userLanguage")
+        options.add_argument(f"accept-language={accept_language}")
+
+        # Set platform
+        platform = self.browser.execute_script("return navigator.platform")
+        options.add_argument(f"platform={platform}")
         
         self.ms_token = ms_token# Set cookies (replace with your cookies)
-        self.browser.add_cookie({"name": "msToken", "value": self.ms_token})
+        # self.browser.add_cookie({"name": "msToken", "value": self.ms_token})
+        options.add_argument(f"cookie=msToken={self.ms_token}")
         
-        # self.solve_captcha()
-        # self.close_signup_box()
+        self.browser.get("https://www.tiktok.com")
 
     def solve_captcha(self):
         try:
             res = TikTokCaptchaSolver(
-                device_id=7297801250002699819, install_id=0
+                device_id=self.device_id, install_id=0
             ).solve_captcha()
         
             while(res["code"]==500):
                 
                 res = TikTokCaptchaSolver(
-                        device_id=7297801250002699819, install_id=0
+                        device_id=self.device_id, install_id=0
                     ).solve_captcha()
         except Exception as e:
             pass
@@ -122,7 +152,7 @@ class TiktTokRecommendationBrowserSession:
             "verifyFp": "verify_lokwbxw0_XFehFvEk_MNw5_4kbH_BwTG_xfZ7kc5dNUi1",
             "watchLiveLastTime": "",
             "webcast_language": "en",
-            "device_id":"7297801250002699819"          
+            "device_id":self.device_id
         }
                 
         if params:

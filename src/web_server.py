@@ -32,7 +32,7 @@ def scrape_tiktok_posts():
         posts = fetch_tiktok_posts_controller(count, cursor)
 
         for post in posts:
-            post["date_collected"] = str(post["date_collected"])
+            post["date_collected"] = str(post.get("date_collected",""))
         
         print("exit api scrape_tiktok_posts: " + str(len(posts)))
         return jsonify({"success": True, "posts": posts}), 200
@@ -50,7 +50,8 @@ async def fetch_comments_for_scrapped_posts():
         posts = await fetch_comments_for_posts_controller(max_posts_to_process)
 
         for post in posts:
-            post["date_collected"] = str(post["date_collected"])
+            post["date_collected"] = str(post.get("date_collected",""))
+            post["_id"] = str(post.get("_id", ""))
 
         print("exit api fetch_comments_for_scrapped_posts: " + str(len(posts)))
         return jsonify({"success": True, "posts_with_comments": posts}), 200
@@ -68,7 +69,7 @@ def filter_fasion_posts_with_relevance_scores():
         posts = assign_relevance_scores_and_filter_fasion_posts(max_posts_to_process)
 
         for post in posts:
-            post["date_collected"] = str(post["date_collected"])
+            post["date_collected"] = str(post.get("date_collected",""))
 
         print("exit api filter_fasion_posts_with_relevance_scores: " + str(len(posts)))
         return jsonify({"success": True, "posts": posts}), 200

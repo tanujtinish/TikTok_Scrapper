@@ -119,9 +119,7 @@ async def fetch_comments_for_posts_controller(max_posts_to_process):
         mongo_ids.append(post_obj_mongo.get("_id"))
     
     print(len(post_objs))
-    if(len(post_objs)>0):    
-        browser_session.solve_captcha_for_other_sessions(post_objs[0].post_url)
-        
+    if(len(post_objs)>0):
         tasks = []
         for post_obj in post_objs:
             print(post_obj)
