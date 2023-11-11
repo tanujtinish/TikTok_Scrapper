@@ -19,8 +19,8 @@ class Hashtag:
     
     @staticmethod
     def from_dict( hashtag_dict):
-        title = hashtag_dict["title"]
-        desc = hashtag_dict["desc"]
+        title = hashtag_dict.get("title","")
+        desc = hashtag_dict.get("desc","")
         
         hashtag= Hashtag(
             title, desc
