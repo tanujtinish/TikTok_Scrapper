@@ -21,10 +21,10 @@ services:
     ports:
       - "27017:27017"
 
-  # headless_chrome:
-  #   image: browserless/chrome:latest
-  #   environment:
-  #     - DOCKER_DEFAULT_PLATFORM=linux/amd64
-  #   ports:
-  #     - "3000:3000"
-  #   container_name: headless_browser
+  headless_chrome:
+    image: browserless/chrome:latest
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    ports:
+      - "3000:3000"
+    container_name: headless_browser

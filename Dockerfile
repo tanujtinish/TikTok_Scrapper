@@ -1,48 +1,16 @@
+FROM python:3.11-slim-bookworm
 
-FROM --platform=linux/amd64 ubuntu:focal
+RUN apt update && \
+    apt install --no-install-recommends -y build-essential gcc && \
+    apt clean && rm -rf /var/lib/apt/lists/*
 
-ENV TZ=Asia/Kolkata
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Update and install packages without prompts
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       curl \
-       jq \
-       build-essential \
-       python3.9 \
-       python3-pip \
-       docker-compose \
-       jsonnet \
-       bison \
-       mercurial \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN pip install --upgrade pip
-
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-    
-WORKDIR /app
+WORKDIR /metajungle-opl
 
 COPY requirements.txt .
-RUN python3 --version
-RUN python3.9 -m pip install --upgrade pip
-
-# Install project dependencies
-RUN python3.9 -m pip install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 COPY . .
-
-# Install NLTK datasets
-RUN python3 src/datasets/predownload_nltk_datasets.py
-
-RUN apt update -y && apt install libgl1-mesa-glx sudo chromium chromium-driver -y
-# Download and install Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update && apt-get install -y google-chrome-stable
 
 EXPOSE 8000
 

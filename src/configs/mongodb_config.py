@@ -1,6 +1,6 @@
 import pymongo
 
-connection_string = "mongodb://localhost:27017/"
+connection_string = "mongodb+srv://finesse:tiktok_challenge@cluster0.z6rbtcz.mongodb.net/"
 database_name = "TikTok"
 
 def connect_to_mongodb():
