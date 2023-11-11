@@ -9,6 +9,8 @@ from src.controllers.process_fasion_instagram_data import process_fasion_instagr
 from src.services.mongodb_service import Mongodb_service
 from src.configs.mongodb_config import scraped_posts_collection, scraped_posts_with_comments_collection, fasion_posts_collection
 
+from src.database.models.post import Post
+
 app = Flask(__name__)
 CORS(app)
 
@@ -73,35 +75,53 @@ def process_instagram_post_data():
 
 
 @app.route('/get_scraped_fasion_posts')
-def process_instagram_post_data():
+def get_scraped_fasion_posts():
     try:
         mongodb_service_source = Mongodb_service(fasion_posts_collection)
         post_objs_mongo = mongodb_service_source.find()
+        
+        post_objs = []
+        for post_obj_mongo in post_objs_mongo:
+            post_obj_mongo["date_collected"] = str(post_obj_mongo["date_collected"])
+            post_obj_mongo["_id"] = str(post_obj_mongo["_id"])
+            post_objs.append(post_obj_mongo)
 
-        return jsonify({"success": True, "scraped_fasion_posts": post_objs_mongo}), 200
+        return jsonify({"success": True, "scraped_fasion_posts": post_objs}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/get_scraped_posts')
-def process_instagram_post_data():
+def get_scraped_posts():
     try:
         mongodb_service_source = Mongodb_service(scraped_posts_collection)
         post_objs_mongo = mongodb_service_source.find()
+        
+        post_objs = []
+        for post_obj_mongo in post_objs_mongo:
+            post_obj_mongo["date_collected"] = str(post_obj_mongo["date_collected"])
+            post_obj_mongo["_id"] = str(post_obj_mongo["_id"])
+            post_objs.append(post_obj_mongo)
 
-        return jsonify({"success": True, "scraped_posts": post_objs_mongo}), 200
+        return jsonify({"success": True, "scraped_posts": post_objs}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/get_scraped_posts_with_comments')
-def process_instagram_post_data():
+def get_scraped_posts_with_comments():
     try:
         
         mongodb_service_source = Mongodb_service(scraped_posts_with_comments_collection)
         post_objs_mongo = mongodb_service_source.find()
+        
+        post_objs = []
+        for post_obj_mongo in post_objs_mongo:
+            post_obj_mongo["date_collected"] = str(post_obj_mongo["date_collected"])
+            post_obj_mongo["_id"] = str(post_obj_mongo["_id"])
+            post_objs.append(post_obj_mongo)
 
-        return jsonify({"success": True, "scraped_posts_with_comments": post_objs_mongo}), 200
+        return jsonify({"success": True, "scraped_posts_with_comments": post_objs}), 200
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
