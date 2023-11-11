@@ -9,7 +9,7 @@ WORKDIR /metajungle-opl
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install -r flask[async]
+RUN pip install flask[async]
 
 RUN python3 src/datasets/predownload_nltk_datasets.py
 
