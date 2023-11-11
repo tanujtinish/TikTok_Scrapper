@@ -13,6 +13,7 @@ class TiktTokRecommendationBrowserSession:
     def __init__(self, ms_token, headless=True, proxy=None):
         # Initialize a headless Selenium browser session
         options = webdriver.ChromeOptions()
+        options.add_argument("--no-sandbox");
         if headless:
             options.add_argument("--headless")
         if proxy:
@@ -24,7 +25,7 @@ class TiktTokRecommendationBrowserSession:
         #     options=options,
         # )
         self.browser = webdriver.Remote(
-        command_executor='http://headless_chrome:3000/webdriver',
+        command_executor='http://localhost:3000/webdriver',
             options=options,
         )
         
