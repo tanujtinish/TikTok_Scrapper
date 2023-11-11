@@ -71,7 +71,7 @@ def parse_api_reponse_and_get_main_attrinutes(posts_from_recommended_api, posts_
        
 def fetch_tiktok_posts_controller(posts_to_scrape, cursor):
     ms_token = "K0A_4yeeT2o4VZRofZzNhSGGjrstUFiE6FCrG9jtOWTKP_XtPFuCadkKj7yxbUNNNbNtPidJtBx62VwudNXJRHA_TEp5ZTxOZgi0jzy7Tzvv1WOjNR3CnhiPHDROJFcROQ5UT8WaRnPmb9cP"
-    browser_session = TiktTokRecommendationBrowserSession(ms_token)
+    browser_session = TiktTokRecommendationBrowserSession(ms_token, True)
     
     # posts_from_api = fetch_tiktok_recommended_posts(10, browser_session)
     # posts = asyncio.run(parse_and_save_posts_from_api(posts_from_api, None, browser_session))
@@ -103,7 +103,7 @@ async def fetch_comments_for_posts_controller():
     
     mongodb_service_source = Mongodb_service(scraped_posts_collection)
     post_objs_mongo = mongodb_service_source.find()
-    post_objs_mongo[:50]
+    post_objs_mongo[:4]
         
     ms_token = "K0A_4yeeT2o4VZRofZzNhSGGjrstUFiE6FCrG9jtOWTKP_XtPFuCadkKj7yxbUNNNbNtPidJtBx62VwudNXJRHA_TEp5ZTxOZgi0jzy7Tzvv1WOjNR3CnhiPHDROJFcROQ5UT8WaRnPmb9cP"
     browser_session = TiktTokRecommendationBrowserSession(ms_token, False)
