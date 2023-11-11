@@ -102,7 +102,7 @@ def fetch_tiktok_posts_controller(posts_to_scrape, cursor):
 async def fetch_comments_for_posts_controller():
     
     mongodb_service_source = Mongodb_service(scraped_posts_collection)
-    post_objs_mongo = mongodb_service_source.find()
+    post_objs_mongo = mongodb_service_source.find_not_processed()
     post_objs_mongo[:100]
         
     ms_token = "K0A_4yeeT2o4VZRofZzNhSGGjrstUFiE6FCrG9jtOWTKP_XtPFuCadkKj7yxbUNNNbNtPidJtBx62VwudNXJRHA_TEp5ZTxOZgi0jzy7Tzvv1WOjNR3CnhiPHDROJFcROQ5UT8WaRnPmb9cP"
@@ -144,7 +144,7 @@ async def fetch_comments_for_posts_controller():
 def assign_relevance_scores_and_filter_fasion_posts():
     
     mongodb_service_source = Mongodb_service(scraped_posts_with_comments_collection)
-    post_objs_mongo = mongodb_service_source.find()
+    post_objs_mongo = mongodb_service_source.find_not_processed()
         
     post_objs = []
     mongo_ids= []

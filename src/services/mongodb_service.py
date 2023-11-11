@@ -26,6 +26,10 @@ class Mongodb_service:
     return res
   
   def find(self):
+    res = self.collection.find({})
+    return res
+  
+  def find_not_processed(self):
     res = self.collection.find({"processed":False})
     return res
   
