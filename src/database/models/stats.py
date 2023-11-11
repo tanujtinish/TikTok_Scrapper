@@ -18,8 +18,8 @@ class Stats:
     def from_dict(stats_dict):
         
         return Stats(
-            int(stats_dict["diggCount"]),
-            int(stats_dict["playCount"]),
-            int(stats_dict["shareCount"]),
-            int(stats_dict["commentCount"])
+            int(stats_dict.get("diggCount","")),
+            int(stats_dict.get("playCount","")),
+            int(stats_dict.get("shareCount","")),
+            int(stats_dict.get("commentCount",""))
         )

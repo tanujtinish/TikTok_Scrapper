@@ -16,9 +16,9 @@ class Music:
     @staticmethod
     def from_dict(music_dict):
         
-        title = music_dict["title"]
-        author_name = music_dict["author_name"]
-        album = music_dict["album"]
+        title = music_dict.get("title", "")
+        author_name = music_dict.get("author_name", "")
+        album = music_dict.get("album", "")
         
         music= Music(
             title, author_name, album

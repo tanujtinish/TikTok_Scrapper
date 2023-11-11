@@ -91,7 +91,7 @@ class Post:
         self.date_collected = datetime.now()
         
         self.comments = []
-        self.video_id = post_item_from_recommended_api.get("video", []).get("id")
+        self.video_id = post_item_from_recommended_api.get("video", []).get("id","")
         self.post_url = f"https://www.tiktok.com/@{self.author.unique_id}/video/{self.video_id}"
           
         return self
@@ -166,23 +166,23 @@ class Post:
             
         self.video_id=post_dic_ob.get("video_id")
         self.post_url=post_dic_ob.get("post_url")
-        self.caption=post_dic_ob.get("caption")
-        self.author= Author.from_dict(post_dic_ob.get("author"))
+        self.caption=post_dic_ob.get("caption","")
+        self.author= Author.from_dict(post_dic_ob.get("author",""))
         
         
         
         self.date_posted=post_dic_ob.get("date_posted")
         self.date_collected=post_dic_ob.get("date_collected")
         
-        self.music=Music.from_dict(post_dic_ob.get("music")),   
+        self.music=Music.from_dict(post_dic_ob.get("music","")),   
         self.music=self.music[0]
         
-        self.stats=Stats.from_dict(post_dic_ob.get("stats"))
+        self.stats=Stats.from_dict(post_dic_ob.get("stats",""))
         
-        self.hashtags=[Hashtag.from_dict(item) for item in post_dic_ob.get("hashtags")],
+        self.hashtags=[Hashtag.from_dict(item) for item in post_dic_ob.get("hashtags",[])],
         self.hashtags=self.hashtags[0]
         
-        self.comments=[Comment.from_dict(item) for item in post_dic_ob.get("comments")],
+        self.comments=[Comment.from_dict(item) for item in post_dic_ob.get("comments",[])],
         self.comments=self.comments[0]
         
 
