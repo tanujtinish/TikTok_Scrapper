@@ -169,7 +169,7 @@ def assign_relevance_scores_and_filter_fasion_posts():
     mongodb_service = Mongodb_service(fasion_posts_collection)
     mongodb_service.save_many_to_mongodb(fashion_post_dic_objs)
     
-    save_dict_objs_to_csv(fashion_post_dic_objs, "fasion_posts_with_relevance_scores.csv")
+    # save_dict_objs_to_csv(fashion_post_dic_objs, "fasion_posts_with_relevance_scores.csv")
     mongodb_service_source.update_processed_batch(mongo_ids)
     
     return fashion_post_dic_objs
