@@ -149,15 +149,15 @@ class TiktTokRecommendationBrowserSession:
                 data = response.json()
                 return data
             else:
-                print(f"Failed to retrieve data. Status code: {response.status_code}")
+                app.logger.info(f"Failed to retrieve data. Status code: {response.status_code}")
                 return {"itemList":[]}
         except Exception as e:
-            print(f"Failed to retrieve data. Error: {e}")
+            app.logger.info(f"Failed to retrieve data. Error: {e}")
             return {"itemList":[]}
             
     
     def solve_captcha_for_other_sessions(self, url):
-        print(f"solving captcha for other sessions using link {url}")
+        app.logger.info(f"solving captcha for other sessions using link {url}")
         self.browser.switch_to.new_window('tab')
         self.browser.get(url)
         
@@ -169,11 +169,11 @@ class TiktTokRecommendationBrowserSession:
                 EC.visibility_of_element_located((By.CSS_SELECTOR, '.captcha_verify_img--wrapper'))
             )
             
-            print("Found captcha")
+            app.logger.info("Found captcha")
             # Solve the CAPTCHA
-            print("Closing captcha...")
+            app.logger.info("Closing captcha...")
             self.solve_captcha()
-            print("Closed captcha")
+            app.logger.info("Closed captcha")
 
         except Exception as e:
              pass
@@ -182,12 +182,12 @@ class TiktTokRecommendationBrowserSession:
             signup_box_div = self.browser.find_element(By.ID, 'loginContainer')
             
             if(signup_box_div):
-                print("Found signup_box Pop up Box")
+                app.logger.info("Found signup_box Pop up Box")
                 # Close the signup box (if it appears)
                 self.close_signup_box()
-                print("Closing sign up box...")
+                app.logger.info("Closing sign up box...")
                 self.close_signup_box()
-                print("Closed sign up box")
+                app.logger.info("Closed sign up box")
                 
 
         except Exception as e:

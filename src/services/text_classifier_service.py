@@ -34,4 +34,4 @@ if __name__ == "__main__":
     classification_result = classifier_service.classify_text(text, labels)
 
     # Print the classification result
-    print(classification_result)
+    app.logger.info(classification_result)

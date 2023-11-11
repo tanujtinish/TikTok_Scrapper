@@ -231,7 +231,7 @@ class Post:
         
     async def scrape_comments_for_post(self):
         
-        print(f"fetching commnets for {self.post_url}")
+        app.logger.info(f"fetching commnets for {self.post_url}")
         self.browser_session.browser.switch_to.new_window('tab')
         # self.browser_session.browser.switch_to.window(self.browser_session.browser.window_handles[-1])
         self.browser_session.browser.get(self.post_url)
@@ -240,8 +240,8 @@ class Post:
         self.browser_session.close_signup_box()
         
         comment_divs = self.browser_session.browser.find_elements(By.CSS_SELECTOR, '.tiktok-1mf23fd-DivContentContainer')
-        print(len(comment_divs))
-        print(comment_divs)
+        app.logger.info(len(comment_divs))
+        app.logger.info(comment_divs)
         for comment_div in comment_divs:
             comment_text = comment_div.find_element(By.TAG_NAME, 'p').text
             
