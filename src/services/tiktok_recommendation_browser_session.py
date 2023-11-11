@@ -20,15 +20,15 @@ class TiktTokRecommendationBrowserSession:
         if proxy:
             options.add_argument(f'--proxy-server={proxy}')
         
-        self.browser = webdriver.Chrome(options=options)
+        # self.browser = webdriver.Chrome(options=options)
         # self.browser = webdriver.Remote(
         # 'http://localhost:4444/wd/hub',
         #     options=options,
         # )
-        # self.browser = webdriver.Remote(
-        # command_executor='http://localhost:3000/webdriver',
-        #     options=options,
-        # )
+        self.browser = webdriver.Remote(
+        command_executor='http://localhost:3000/webdriver',
+            options=options,
+        )
         
         self.browser.get("https://www.tiktok.com")
         
