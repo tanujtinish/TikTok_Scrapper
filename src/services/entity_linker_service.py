@@ -51,5 +51,5 @@ if __name__ == "__main__":
 
     # Print the linked entities
     for entity in linked_entities:
-        app.logger.info(entity)
+        print(entity)
 
