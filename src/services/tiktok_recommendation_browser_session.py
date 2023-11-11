@@ -46,7 +46,7 @@ class TiktTokRecommendationBrowserSession:
         # )
         self.browser = webdriver.Remote(
         command_executor='http://headless_chrome:3000/webdriver',
-            options=options,
+            options=options, keep_alive=True
         )
         
         
