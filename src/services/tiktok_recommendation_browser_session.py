@@ -14,20 +14,20 @@ class TiktTokRecommendationBrowserSession:
         # Initialize a headless Selenium browser session
         options = webdriver.ChromeOptions()
         options.add_argument("--no-sandbox");
-        if headless:
-            options.add_argument("--headless")
+        options.add_argument("--disable-setuid-sandbox");
+        options.add_argument("--headless")
         if proxy:
             options.add_argument(f'--proxy-server={proxy}')
         
         # self.browser = webdriver.Chrome(options=options)
-        # self.browser = webdriver.Remote(
-        # 'http://127.0.0.1:4444/wd/hub',
-        #     options=options,
-        # )
         self.browser = webdriver.Remote(
-        command_executor='http://localhost:3000/webdriver',
+        'http://localhost:4444/wd/hub',
             options=options,
         )
+        # self.browser = webdriver.Remote(
+        # command_executor='http://localhost:3000/webdriver',
+        #     options=options,
+        # )
         
         self.browser.get("https://www.tiktok.com")
         
