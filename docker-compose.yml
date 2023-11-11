@@ -15,11 +15,11 @@ services:
     depends_on:
       - mongodb
 
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
+  # mongodb:
+  #   image: mongo:latest
+  #   container_name: mongodb
+  #   ports:
+  #     - "27017:27017"
 
   headless_chrome:
     image: browserless/chrome:latest
