@@ -232,8 +232,8 @@ class Post:
     async def scrape_comments_for_post(self):
         
         print(f"fetching commnets for {self.post_url}")
-        self.browser_session.browser.switch_to.new_window('tab')
-        # self.browser_session.browser.switch_to.window(self.browser_session.browser.window_handles[-1])
+        # self.browser_session.browser.switch_to.new_window('tab')
+
         self.browser_session.browser.get(self.post_url)
     
         self.browser_session.solve_captcha()
@@ -250,7 +250,7 @@ class Post:
             comment_author_id = comment_author.text
             
             self.comments.append(Comment(comment_text, comment_author_profile, comment_author_id))
-                           
+                   
         # https://www.tiktok.com/@martins_ji/video/7287589378447150342
         # api_url = "https://www.tiktok.com/api/comment/list/"
         # comments_response_data = self.browser_session.browser.make_request(api_url, {

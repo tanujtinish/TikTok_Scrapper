@@ -158,7 +158,7 @@ class TiktTokRecommendationBrowserSession:
     
     def solve_captcha_for_other_sessions(self, url):
         print(f"solving captcha for other sessions using link {url}")
-        self.browser.switch_to.new_window('tab')
+        # self.browser.switch_to.new_window('tab')
         self.browser.get(url)
         
         # Maximum time to wait for CAPTCHA (in seconds)
