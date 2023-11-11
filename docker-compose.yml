@@ -3,9 +3,13 @@ services:
   tiktok_scrapper:
     build:
       context: .
+      args:
+        - BUILD_NO_CACHE=true # Add this line to enable --no-cache
+    platform: linux/amd64
+    environment:
+      - "TZ=Asia/Kolkata"
     ports:
       - "8000:8000"
-    network_mode: host
     volumes:
       - .:/app
     depends_on:
@@ -16,4 +20,11 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    network_mode: host
+
+  # headless_chrome:
+  #   image: browserless/chrome:latest
+  #   environment:
+  #     - DOCKER_DEFAULT_PLATFORM=linux/amd64
+  #   ports:
+  #     - "3000:3000"
+  #   container_name: headless_browser

@@ -240,6 +240,8 @@ class Post:
         self.browser_session.close_signup_box()
         
         comment_divs = self.browser_session.browser.find_elements(By.CSS_SELECTOR, '.tiktok-1mf23fd-DivContentContainer')
+        print(len(comment_divs))
+        print(comment_divs)
         for comment_div in comment_divs:
             comment_text = comment_div.find_element(By.TAG_NAME, 'p').text
             
