@@ -10,6 +10,8 @@ services:
       - "TZ=Asia/Kolkata"
     ports:
       - "8000:8000"
+    networks:
+      - tiktok_scrapper_net
     volumes:
       - .:/app
     depends_on:
@@ -25,6 +27,8 @@ services:
     image: browserless/chrome:latest
     environment:
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    networks:
+      - tiktok_scrapper_net
     ports:
       - "3000:3000"
     container_name: headless_browser
