@@ -18,10 +18,15 @@ class Author:
     @staticmethod
     def from_dict(author_dict):
         
+        if type(author_dict.get("verified", False))==bool:
+            verified = author_dict.get("verified", False)
+        else:
+            verified = True if author_dict.get("verified", False).lower() == "true" else False
+            
         author= Author(
-            author_dict["id"],
-            author_dict["nickname"],
-            author_dict["unique_id"],
-            True if author_dict["verified"].lower() == "true" else False
+            author_dict.get("id", ""),
+            author_dict.get("nickname", ""),
+            author_dict.get("unique_id", ""),
+            verified
         )
         return author

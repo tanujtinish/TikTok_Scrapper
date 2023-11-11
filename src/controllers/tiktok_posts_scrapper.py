@@ -110,17 +110,21 @@ async def fetch_comments_for_posts_controller(max_posts_to_process):
     
     post_objs = []
     mongo_ids = []
+    
     for post_obj_mongo in post_objs_mongo:
         post_obj = Post(browser_session)
+        print(post_obj_mongo)
         post_obj.mapper_dic_to_post(post_obj_mongo)
         post_objs.append(post_obj)
         mongo_ids.append(post_obj_mongo.get("_id"))
     
+    print(len(post_objs))
     if(len(post_objs)>0):    
         browser_session.solve_captcha_for_other_sessions(post_objs[0].post_url)
         
         tasks = []
         for post_obj in post_objs:
+            print(post_obj)
             task = asyncio.create_task(post_obj.scrape_comments_for_post())
             tasks.append(task)
         posts = await asyncio.gather(*tasks)
@@ -179,7 +183,7 @@ def assign_relevance_scores_and_filter_fasion_posts(max_posts_to_process):
 if __name__ == "__main__":
     # fetch_tiktok_posts_controller(300, 0)
     
-    asyncio.run(fetch_comments_for_posts_controller())
+    asyncio.run(fetch_comments_for_posts_controller(1))
     
     # assign_relevance_scores_and_filter_fasion_posts()
     
