@@ -19,6 +19,11 @@ class Hashtag:
     
     @staticmethod
     def from_dict( hashtag_dict):
+        if hashtag_dict is None:
+            return Hashtag(
+            "", ""
+        )
+            
         title = hashtag_dict.get("title","")
         desc = hashtag_dict.get("desc","")
         

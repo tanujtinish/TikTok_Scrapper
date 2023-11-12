@@ -31,7 +31,7 @@ def word_frequency_in_list(word_list):
 
 
 def save_dict_objs_to_csv(list_of_dicts, filename):
-    with open("src/database/csv_data/"+filename, 'w', newline='') as csvfile:
+    with open(filename, 'w', newline='') as csvfile:
         
         if len(list_of_dicts)==0:
             return

@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from src.controllers.tiktok_posts_scrapper import fetch_tiktok_posts_controller, fetch_comments_for_posts_controller, assign_relevance_scores_and_filter_fasion_posts
+from src.controllers.tiktok_posts_scrapper import fetch_tiktok_posts_controller, fetch_comments_for_posts_controller, assign_relevance_scores_and_filter_fasion_posts, download_scraped_fasion_posts_csv_util
 from src.controllers.process_fasion_instagram_data import process_fasion_instagram_data
 
 from src.services.mongodb_service import Mongodb_service
@@ -111,6 +111,19 @@ def get_scraped_fasion_posts():
         return jsonify({"success": True, "scraped_fasion_posts": post_objs}), 200
     except Exception as e:
         print("error api get_scraped_fasion_posts: "+str(e))
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/download_scraped_fasion_posts_csv')
+def download_scraped_fasion_posts_csv():
+    try:
+        print("enter api download_scraped_fasion_posts_csv")
+        count = int(request.args.get('count', 100))
+        download_scraped_fasion_posts_csv_util(count)
+
+        return jsonify({"success": True}), 200
+    except Exception as e:
+        print("error api download_scraped_fasion_posts_csv: "+str(e))
         return jsonify({"success": False, "error": str(e)}), 500
 
 
