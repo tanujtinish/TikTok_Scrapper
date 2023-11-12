@@ -177,6 +177,19 @@ def assign_relevance_scores_and_filter_fasion_posts(max_posts_to_process):
     
     return fashion_post_dic_objs
  
+ 
+def download_scraped_fasion_posts_csv_util(count):
+    
+    mongodb_service_source = Mongodb_service(fasion_posts_collection)
+    post_objs_mongo = mongodb_service_source.find()
+    post_objs_mongo[:count]
+        
+    post_objs = []
+    for post_obj_mongo in post_objs_mongo:
+        post_objs.append(post_obj_mongo)
+    
+    save_dict_objs_to_csv(post_objs, "fasion_posts_with_relevance_scores.csv")
+ 
   
 if __name__ == "__main__":
     # fetch_tiktok_posts_controller(300, 0)
