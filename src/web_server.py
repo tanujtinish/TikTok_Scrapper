@@ -33,6 +33,7 @@ def scrape_tiktok_posts():
 
         for post in posts:
             post["date_collected"] = str(post.get("date_collected",""))
+            post["_id"] = str(post.get("_id", ""))
         
         print("exit api scrape_tiktok_posts: " + str(len(posts)))
         return jsonify({"success": True, "posts": posts}), 200
